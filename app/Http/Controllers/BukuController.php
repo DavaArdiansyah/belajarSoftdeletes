@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bukus = Buku::withTrashed()->get(); // Mengambil semua buku termasuk yang dihapus
+        $sort = $request->get('sort', 'judul_buku');
+        $order = $request->get('order', 'asc');
+        $bukus = Buku::withTrashed()->orderBy($sort, $order)->get(); // Mengambil semua buku termasuk yang dihapus
         return view('buku.index', compact('bukus'));
     }
 
